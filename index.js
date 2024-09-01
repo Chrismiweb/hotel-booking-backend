@@ -8,7 +8,9 @@ const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
 const app  = express()
 const bodyParser = require('body-parser')
-const expressFilUpload = require('express-fileupload')
+const expressFilUpload = require('express-fileupload');
+const connectMongoose = require('./db/connectDb');
+const hotelModel = require('./models/Hotel');
 
 // use express
 app.use(express.json())
@@ -23,34 +25,8 @@ app.get('/', (req,res)=>{
     res.send("this app is running")
 })
 
-// connect mongoose 
-    const connectString = process.env.connectString
-    async function connectMongoose (){
-        await mongoose.connect(connectString)
-        console.log("database was connected sucessfully")
-    }
-    // schema and model
-    const hotelSchema = new mongoose.Schema({
-        image : {
-            require : true,
-            type: String
-        },
-        hotelName : {
-            require: true,
-            type: String
-        },
-        price: {
-            require: true,
-            type: Number
-        },
-        address : {
-            require: true,
-            type: String
-        }
-    })
 
-    const hotelModel = new mongoose.model('createHotel', hotelSchema )
-
+  
     // create hotel 
    app.post('/api/v1/createHotel', async(req,res)=>{
         const {hotelName, price,address} = req.body
