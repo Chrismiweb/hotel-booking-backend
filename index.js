@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const expressFileUpload = require('express-fileupload');
 const { connectMongoose } = require('./db/connectDb');
 const hotelModel = require('./models/Hotel'); 
-const { router } = require('./route/user'); 
+const { router } = require('./route/hotel.route'); 
+// const { routers } = require('./route/user.route');
 const app = express();
 const port = 1000;
 
@@ -15,6 +16,8 @@ app.use(expressFileUpload());
 
 // Routes
 app.use('/', router);
+// app.use('/', routers);
+
 
 app.get('/', (req, res) => {
     res.send("This app is running");
