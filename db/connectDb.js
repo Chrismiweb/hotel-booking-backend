@@ -8,4 +8,4 @@ async function connectMongoose (){
     console.log("database was connected sucessfully")
 }
 
-module.exports = connectMongoose;
+module.exports = {connectMongoose};
