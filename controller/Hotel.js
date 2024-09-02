@@ -19,7 +19,8 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
     // create hotel
     const createHotel = async(req,res)=>{ 
-        const {hotelName, price, address} = req.body
+        try {
+            const {hotelName, price, address} = req.body
 
         if(!hotelName || !price || !address){
             return res.json({error: "Please upload all credential"})
@@ -65,12 +66,16 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         await uploadHotel.save()
         
         res.status(201).json({message:"New Hotel added successfully!", succes:true, uploadHotel})
+        } catch (error) {
+            console.log(error.message);
+               
+        }
 
    };
    
    
     // to get all available hotels
-   const getOneHotel = async(req, res)=>{
+   const getAllHotels = async(req, res)=>{
         const getAllHotel = await hotelModel.find()
 
         if(!getAllHotel) {
@@ -80,7 +85,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
    }
 
  // to get individual hotel using the hotel Name
-    const getAllHotels = async(req, res)=>{
+    const getOneHotel = async(req, res)=>{
         const {hotelName} = req.params
         const findHotel = await hotelModel.findOne({hotelName})
 
@@ -100,6 +105,17 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         res.json({message: "hotel was deleted successfully"})
     }
 
+    // delete all uploaded hotels
+    const deleteAllHotels = async(req, res)=>{
+        const deleteHotel = await hotelModel.deleteMany()
+        if(!deleteHotel){
+            return res.status(404).json("unable to delete because no available hotel")
+        }
+        res.status(200).json({message: "all uploaded hotels were deleted succesfully", deleteHotel})
+
+    }
+
+
     // to update a hotel detail
     const updateHotel = async(req,res)=>{
         const {hotelName} = req.params
@@ -107,7 +123,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         if(!updateHotel){
             res.status(404).json({error: "the hotel detail you want to update was not found"}, req.body, {runValidator: true, new:true})
         }
-        res.json({message : "hotel details was updated succesfully"})
+        res.json({message : "hotel details was updated succesfully", updateHotel})
     }
    
 
@@ -117,5 +133,6 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         getOneHotel,
         getAllHotels,
         deleteOneHotel,
-        updateHotel
+        updateHotel, 
+        deleteAllHotels
     }

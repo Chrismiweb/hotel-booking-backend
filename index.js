@@ -1,35 +1,27 @@
 const express = require('express');
-const port =1000
-//  multer is used to upload files in node js
+const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const expressFileUpload = require('express-fileupload');
+const { connectMongoose } = require('./db/connectDb');
+const hotelModel = require('./models/Hotel'); 
+const { router } = require('./route/user'); 
+const app = express();
+const port = 1000;
 
-const dotenv = require('dotenv').config()
-const mongoose = require('mongoose')
-const app  = express()
-const bodyParser = require('body-parser')
-const expressFilUpload = require('express-fileupload');
-const {connectMongoose} = require('./db/connectDb');
-const hotelModel = require('./models/Hotel');
-const {router} = require('./route/user');
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressFileUpload());
 
+// Routes
+app.use('/', router);
 
+app.get('/', (req, res) => {
+    res.send("This app is running");
+});
 
-// use express
-app.use(express.json())
-
-// router 
-app.use('/', router)
-
-// use express file upload
-app.use(expressFilUpload());
-
-// use body-parser
-app.use(bodyParser.urlencoded({extended:false}))
-
-app.get('/', (req,res)=>{
-    res.send("this app is running")
-})
-
-app.listen(port, async() => {
-    console.log(`Server started on port ${port}`);
+// Start server and connect to the database
+app.listen(port, async () => {
+    console.log(`app is running on port ${port}`)
     await connectMongoose()
 });
