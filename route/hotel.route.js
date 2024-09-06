@@ -2,6 +2,9 @@ const express = require("express")
 const { createHotel, getOneHotel, getAllHotels, deleteOneHotel, updateHotel, deleteAllHotels } = require("../controller/Hotel")
 const { register } = require("../controller/User")
 const app = express()
+const cors = require("cors")
+
+app.use(cors())
 
 const router = express.Router()
 
