@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressFileUpload());
 
+app.use(cors())
 // Routes
 app.use('/', router);
 // app.use('/', routers);
@@ -26,7 +27,6 @@ app.use('/', router);
 //     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 //   }
 
-app.use(cors())
 
 
 app.get('/', (req, res) => {
