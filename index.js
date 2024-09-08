@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
-var cors = require('cors')
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const expressFileUpload = require('express-fileupload');
 const { connectMongoose } = require('./db/connectDb');
@@ -21,12 +21,12 @@ app.use('/', router);
 
 // use cors
 
-const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// const corsOptions = {
+//     origin: '*',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
 
-app.use(cors(corsOptions))
+app.use(cors())
 
 
 app.get('/', (req, res) => {
