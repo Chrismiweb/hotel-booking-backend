@@ -76,7 +76,8 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
    
     // to get all available hotels
    const getAllHotels = async(req, res)=>{
-        const getAllHotel = await hotelModel.find()
+        // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
+        const getAllHotel = await hotelModel.find().sort({ _id: -1 })
 
         if(!getAllHotel) {
             res.status(404).json({error: "hotel not found"})
