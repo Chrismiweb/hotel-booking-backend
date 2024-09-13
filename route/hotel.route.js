@@ -15,7 +15,7 @@ router.route('/api/v1/delete-one-hotel/:hotelName').delete(deleteOneHotel)
 router.route('/api/v1/delete-All-hotel').delete(deleteAllHotels)
 router.route('/api/v1/update-hotel/:hotelName').put(updateHotel)
 router.route('/register').post(register)
-router.route('/uploadimg').post(uploadImg)
+// router.route('/uploadimg').post(uploadImg)
 
 
 
