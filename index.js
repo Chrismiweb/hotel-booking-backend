@@ -7,6 +7,7 @@ const expressFileUpload = require('express-fileupload');
 const { connectMongoose } = require('./db/connectDb');
 const hotelModel = require('./models/Hotel'); 
 const { router } = require('./route/hotel.route'); 
+const { cloudinary_js_config } = require('./utils/cloudinary');
 // const { routers } = require('./route/user.route');
 const app = express();
 const port = 1000;
@@ -26,7 +27,6 @@ app.use('/', router);
 //     origin: '*',
 //     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 //   }
-
 
 
 app.get('/', (req, res) => {

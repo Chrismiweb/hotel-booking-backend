@@ -4,6 +4,9 @@ const express = require("express")
 const app = express();
 const path= require('path')
 const fs= require('fs')
+const upload = require("../middleware/multer");
+
+const cloudinary = require('../utils/cloudinary')
 
 // default options
 app.use(fileUpload());
@@ -126,6 +129,55 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         }
         res.json({message : "hotel details was updated succesfully", updateHotel})
     }
+
+
+
+    
+    const uploadImg = async(req, res)=>{
+        const cloudImg = req.file.image
+        const uploadResult = await cloudinary.uploader.upload
+        uploadResult(cloudImg, function (err, result){
+          if(err) {
+            console.log(err);
+            return res.status(500).json({
+              success: false,
+              message: "Error"
+            })
+          }
+      
+          res.status(200).json({
+            success: true,
+            message:"Uploaded!",
+            data: result
+          })
+        })
+      };
+      
+
+//     // uploadImage example with cloudinary
+//    const uploadImg = async(req, res)=>{
+//        const img = req.files
+//     const uploadResult = await cloudinary.uploader
+//     .upload(
+//         img, {
+//             public_id: '#',
+//         }
+//     )
+//     .catch((error) => {
+//         console.log(error);
+//     });
+ 
+//  console.log(uploadResult);
+//         // res.status(200).json({uploadResult, message: "picture uploaded successfully"})
+//    }
+ 
+// //  // Optimize delivery by resizing and applying auto-format and auto-quality
+// //  const optimizeUrl = cloudinary.url('shoes', {
+// //      fetch_format: 'auto',
+// //      quality: 'auto'
+// //  });
+ 
+
    
 
 
@@ -135,5 +187,6 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
         getAllHotels,
         deleteOneHotel,
         updateHotel, 
-        deleteAllHotels
+        deleteAllHotels,
+        uploadImg
     }
