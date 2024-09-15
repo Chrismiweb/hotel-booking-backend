@@ -1,6 +1,6 @@
 const express = require("express")
 const { createHotel, getOneHotel, getAllHotels, deleteOneHotel, updateHotel, deleteAllHotels, uploadImg } = require("../controller/Hotel")
-const { register } = require("../controller/User")
+const { register, login } = require("../controller/User")
 const app = express()
 // const cors = require("cors")
 
@@ -15,6 +15,8 @@ router.route('/api/v1/delete-one-hotel/:hotelName').delete(deleteOneHotel)
 router.route('/api/v1/delete-All-hotel').delete(deleteAllHotels)
 router.route('/api/v1/update-hotel/:hotelName').put(updateHotel)
 router.route('/register').post(register)
+router.route('/login').post(login)
+
 // router.route('/uploadimg').post(uploadImg)
 
 
