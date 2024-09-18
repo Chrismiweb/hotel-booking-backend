@@ -13,7 +13,7 @@ const register = async (req, res) => {
         }
 
         // Check if user already exists
-        const checkUser = await userModel.findOne({ email });
+        const checkUser = await userModel.findOne({ email })
         if (checkUser) {
             return res.status(400).json({ message: "User with this email already has an account" });
         }
@@ -71,7 +71,7 @@ const register = async (req, res) => {
 
         // Send verification email
         await transporter.sendMail({
-            from: 'chrismibiteso@gmsil.com', // sender address
+            from: 'chrismibiteso@gmail.com', // sender address
             to: email, // receiver email
             subject: "Email Verification", // Subject line
             html: message, // HTML body

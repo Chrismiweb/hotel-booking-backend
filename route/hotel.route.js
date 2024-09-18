@@ -1,6 +1,7 @@
 const express = require("express")
 const { createHotel, getOneHotel, getAllHotels, deleteOneHotel, updateHotel, deleteAllHotels, uploadImg } = require("../controller/Hotel")
-const { register, login } = require("../controller/User")
+const { register, login } = require("../controller/User.Auth")
+const { allRegisteredUsers, deleteSingleUser, deleteAllUsers, SingleRegisteredUser } = require("../controller/Admin.controller")
 const app = express()
 // const cors = require("cors")
 
@@ -16,6 +17,15 @@ router.route('/api/v1/delete-All-hotel').delete(deleteAllHotels)
 router.route('/api/v1/update-hotel/:hotelName').put(updateHotel)
 router.route('/register').post(register)
 router.route('/login').post(login)
+router.route('/admin/AllregisteredUser').get(allRegisteredUsers)
+router.route('/admin/SingleregisteredUser/:email').get(SingleRegisteredUser)
+router.route('/admin/deleteSingleUser/:email').delete(deleteSingleUser)
+router.route('/admin/deleteAllUser').delete(deleteAllUsers)
+router.route('/admin/deleteAllUser').delete(deleteAllUsers)
+
+
+
+
 
 // router.route('/uploadimg').post(uploadImg)
 
