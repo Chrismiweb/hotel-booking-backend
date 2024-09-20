@@ -82,6 +82,7 @@ const register = async (req, res) => {
             success: true,
             message: "Registered successfully. Please check your email to verify your account.",
             registerUser,
+            token
         });
     } catch (error) {
         console.error(error.message);
@@ -89,86 +90,6 @@ const register = async (req, res) => {
     }
 };
 
-// const register = async(req, res)=>{
-//     try {
-//         const {userName, email, password} = req.body
-//     if(!userName || !email || !password){
-//         return res.status(401).json({message: "please input all credentials before registering"})
-//     }
-//     const checkUser = await userModel.findOne({email})
-//     if(checkUser){
-//         return res.status(401).json({message: "user with this email already have an accountt"})
-//     }
-//     // salt and hash password
-//     const saltPassword = bcrypt.genSaltSync(20);
-//     const hash = bcrypt.hashSync(password, saltPassword);
-
-//     const registerUser = await new userModel({
-//         userName, 
-//         email, 
-//         password: hash
-//     })
-//     // token generator using JWT token
-//     const id = registerUser._id.toString()
-//     const token = jwt.sign(id, process.env.JWT_SECRET);
-//     registerUser.token = token
-
-
-//     // create nodemailer
-//     const transporter = nodemailer.createTransport({
-//         service: 'Gmail',
-//         auth: {
-//             user: 'chrismibiteso@gmail.com'
-//             // user: process.env.ADMIN_EMAIL,
-//             // pass: process.env.ADMIN_PASSWORD,
-//         },
-//     });
-//     // email message
-//     const message = String.raw`
-//             <!DOCTYPE html>
-//         <html lang="en">
-//         <head>
-//             <meta charset="UTF-8">
-//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//             <title>Document</title>
-//         </head>
-//         <body>
-//             <p>Verify your email</p>
-
-//             <p>
-//                 Kindly click on the button below to verify your email address
-//                 <br />
-//                 <a href=${`${process.env.FRONTEND_URL}register/verify/${token}`}
-//                     >Click button to verify your account</a
-//                 >
-//                 <br />
-//                 Please click on the button to proceed with your account creation. 
-//                 <br />
-//                 <br />
-//                 If you did not initiate this verification, kindly ignore this email and
-//                 avoid sharing this code with a third party
-//             </p>
-//         </body>
-//         </html>
-//     `
-//     await transporter.sendMail({
-//         from: 'chrismibiteso@gmail.com', // sender address
-//         to: email, // list of receivers
-//         subject: "Emmail Verification", // Subject line
-//         // text: "Hello world?", // plain text body
-//         html: message, // html body
-//       });
-
-//         res.status(200).json({
-//             success: true,
-//             message: "Registered sucessfully",
-//             registerUser,
-//         })
-//     } catch (error) {
-//         console.log(error.message);
-        
-//     }
-// }
 
 
 const login = async(req,res)=>{
@@ -181,15 +102,23 @@ const login = async(req,res)=>{
         return res.status(201).json({message: "User not found"})
     }
 
+    // generate user token
+    const token = jwt.sign({ id: checkUser._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
     // compare password
     const comparePassword = await bcrypt.compare(password, checkUser.password)
     if(!comparePassword){
         return res.status(401).json({error: "invalid password"})
     }
 
-    res.status(200).json({message: "Login Successfully"})
+    res.status(200).json({
+        message: "Login Successfully",
+        token
+    })
+}
 
-    
+
+const verifyAccount = async(req, res) =>{
     
 }
 
