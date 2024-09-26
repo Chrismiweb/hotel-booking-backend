@@ -117,9 +117,18 @@ const login = async(req,res)=>{
     })
 }
 
+const sendVerificationLink = ()=>{
+
+}
 
 const verifyAccount = async(req, res) =>{
-    
+    const {email} = req.user
+    const user = await userModel.findOne({email})
+
+    let token = user.token
+    if(!token){
+        
+    }
 }
 
 module.exports = {
