@@ -2,7 +2,7 @@ const userModel = require("../models/User.model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
-const isLoggedIn = async(req,res)=>{
+const isLoggedIn = async(req,res, next)=>{
     let token
 
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer ")){

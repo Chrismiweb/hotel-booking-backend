@@ -7,15 +7,19 @@ const expressFileUpload = require('express-fileupload');
 const { connectMongoose } = require('./db/connectDb');
 const hotelModel = require('./models/Hotel'); 
 const { router } = require('./route/hotel.route'); 
+const { cloudinary_js_config } = require('./utils/cloudinary');
+// const { cloudinary_js_config } = require('./middleware/cloudinary');
 // const { cloudinary_js_config } = require('./utils/cloudinary');
+
 // const { routers } = require('./route/user.route');
 const app = express();
 const port = 1000;
 
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressFileUpload());
-
+app.use
 app.use(cors())
 // Routes
 app.use('/', router);
