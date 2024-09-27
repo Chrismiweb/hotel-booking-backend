@@ -16,6 +16,11 @@
     address : {
         require: true,
         type: String
+    },
+    user:{
+        type:mongoose.Types.ObjectId,
+        ref:"User",
+        require:true
     }
 })
 
