@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
     try {
-        const { userName, email, password } = req.body;
+        const { userName, email, password, role } = req.body;
 
         // Validate input fields
         if (!userName || !email || !password) {
@@ -26,7 +26,8 @@ const register = async (req, res) => {
         const registerUser = new userModel({
             userName,
             email,
-            password: hashedPassword
+            password: hashedPassword, 
+            role
         });
 
         // Generate JWT token
@@ -113,6 +114,7 @@ const login = async(req,res)=>{
 
     res.status(200).json({
         message: "Login Successfully",
+        checkUser,
         token
     })
 }
