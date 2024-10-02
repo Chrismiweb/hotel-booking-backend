@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.route('/register').post(register)
 router.route('/login').post(login)
-router.route('/api/v1/create-hotel').post([isLoggedIn, isAdmin], createHotel)
+router.route('/api/v1/create-hotel').post(isLoggedIn, createHotel)
 router.route('/api/v1/get-one-hotel/:hotelName').get(isLoggedIn, getOneHotel)
 router.route('/api/v1/get-All-Hotel').get(isLoggedIn, getAllHotels)
 router.route('/api/v1/delete-one-hotel/:hotelName').delete(isLoggedIn, deleteOneHotel)
