@@ -21,7 +21,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
     // create hotel
     const createHotel = async(req,res)=>{ 
         try {
-            const {hotelName, price, address} = req.body._id
+            const {hotelName, price, address} = req.body
 
         if(!hotelName || !price || !address){
             return res.json({error: "Please upload all credential"})

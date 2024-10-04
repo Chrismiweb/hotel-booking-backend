@@ -17,7 +17,7 @@
         require: true,
         type: String
     },
-    user:{
+    userId:{
         type:mongoose.Types.ObjectId,
         ref:"User",
         require:true
