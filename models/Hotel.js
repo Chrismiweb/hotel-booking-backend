@@ -17,6 +17,7 @@
         require: true,
         type: String
     },
+    // this user id used to differentiate users on the platform using there id 
     userId:{
         type:mongoose.Types.ObjectId,
         ref:"User",
