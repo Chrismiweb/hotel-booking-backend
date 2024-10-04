@@ -94,16 +94,42 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 //    }
 
 
-const getAllHotels = async(req, res)=>{
-    const userId = req.user
-    // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
-    const getAllHotel = await hotelModel.find({userId}).sort({ _id: -1 })
+// const getAllHotels = async(req, res)=>{
+//     const userId = req.user._id
+//     // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
+//     const getAllHotel = await hotelModel.find({userId}).sort({ _id: -1 })
 
-    if(!getAllHotel || getAllHotel.length === 0) {
-        res.status(404).json({error: "this user have not uploaded any hotel"})
+//     if(!getAllHotel || getAllHotel.length === 0) {
+//         res.status(404).json({error: "this user have not uploaded any hotel"})
+//     }
+//     res.json({getAllHotel})
+// }
+
+const getAllHotels = async (req, res) => {
+    // Check if req.user is defined
+    if (!req.user) {
+        return res.status(401).json({ error: "Unauthorized: Please log in." });
     }
-    res.json({getAllHotel})
-}
+
+    const userId = req.user._id;
+
+    try {
+        // Fetch hotels uploaded by the user
+        const getAllHotel = await hotelModel.find({ userId }).sort({ _id: -1 });
+
+        // Check if the user has uploaded any hotels
+        if (!getAllHotel || getAllHotel.length === 0) {
+            return res.status(404).json({ error: "This user has not uploaded any hotels." });
+        }
+
+        // Send the retrieved hotels as a response
+        res.json({ getAllHotel });
+    } catch (error) {
+        console.error("Error fetching hotels:", error);
+        res.status(500).json({ error: "An error occurred while fetching hotels." });
+    }
+};
+
 
  // to get individual hotel using the hotel Name
     const getOneHotel = async(req, res)=>{
