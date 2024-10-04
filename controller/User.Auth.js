@@ -9,13 +9,13 @@ const register = async (req, res) => {
 
         // Validate input fields
         if (!userName || !email || !password) {
-            return res.status(400).json({ message: "Please input all credentials before registering" });
+            return res.status(400).json({ error: "Please input all credentials before registering" });
         }
 
         // Check if user already exists
         const checkUser = await userModel.findOne({ email })
         if (checkUser) {
-            return res.status(400).json({ message: "User with this email already has an account" });
+            return res.status(400).json({ error: "User with this email already has an account" });
         }
 
         // Salt and hash password
@@ -100,7 +100,7 @@ const login = async(req,res)=>{
     }
     const checkUser = await userModel.findOne({email})
     if(!checkUser){
-        return res.status(201).json({message: "User not found"})
+        return res.status(404).json({error: "User not found"})
     }
 
     // generate user token

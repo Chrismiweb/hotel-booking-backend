@@ -21,7 +21,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
     // create hotel
     const createHotel = async(req,res)=>{ 
         try {
-            const {hotelName, price, address} = req.body
+            const {hotelName, price, address} = req.body._id
 
         if(!hotelName || !price || !address){
             return res.json({error: "Please upload all credential"})
@@ -63,7 +63,8 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
             image: uploadResult.secure_url, 
             hotelName, 
             price, 
-            address
+            address,
+            userId: req.user._id
         })
         if(!uploadHotel){
             return res.json({error:"Could not upload new hotel", succes:false})
@@ -81,15 +82,28 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
    
    
     // to get all available hotels
-   const getAllHotels = async(req, res)=>{
-        // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
-        const getAllHotel = await hotelModel.find().sort({ _id: -1 })
+//    const getAllHotels = async(req, res)=>{
+//         // const userId = req.user
+//         // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
+//         const getAllHotel = await hotelModel.find().sort({ _id: -1 })
 
-        if(!getAllHotel) {
-            res.status(404).json({error: "hotel not found"})
-        }
-        res.json({getAllHotel})
-   }
+//         if(!getAllHotel) {
+//             res.status(404).json({error: "hotel not found"})
+//         }
+//         res.json({getAllHotel})
+//    }
+
+
+const getAllHotels = async(req, res)=>{
+    const userId = req.user
+    // const getAllHotel = await hotelModel.find().sort({ createdAt: -1 }).exec();
+    const getAllHotel = await hotelModel.find({userId}).sort({ _id: -1 })
+
+    if(!getAllHotel || getAllHotel.length === 0) {
+        res.status(404).json({error: "this user have not uploaded any hotel"})
+    }
+    res.json({getAllHotel})
+}
 
  // to get individual hotel using the hotel Name
     const getOneHotel = async(req, res)=>{
